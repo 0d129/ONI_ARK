@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Atlas切图/Atlas切图.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="81b0e338-b2a3-452a-b30e-93062ea31f40">
+    <Platform Project="AnyCPU" />
+    <Build Project="false" />
+  </Project>
+  <Project Path="D:/FD_Project/swe5d/缺氧-蛇屠箱/缺氧-蛇屠箱/缺氧-蛇屠箱.csproj" Id="66ee373b-680c-40e3-8a00-1c854959f374" />
+</Solution>
