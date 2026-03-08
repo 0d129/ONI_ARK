@@ -7,8 +7,8 @@
     <ProjectGuid>{66EE373B-680C-40E3-8A00-1C854959F374}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>缺氧_蛇屠箱</RootNamespace>
-    <AssemblyName>缺氧-蛇屠箱</AssemblyName>
+    <RootNamespace>ONI_ARK</RootNamespace>
+    <AssemblyName>ONI_ARK</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -72,4 +72,13 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetPath)" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I
+xcopy "$(ProjectDir)mod.yaml" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I
+xcopy "$(ProjectDir)mod_info.yaml" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I</PostBuildEvent>
+  </PropertyGroup>
 </Project>

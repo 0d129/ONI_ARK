@@ -3,7 +3,7 @@ using HarmonyLib;
 using Klei.AI;
 using System.Collections.Generic;
 
-namespace 缺氧_蛇屠箱
+namespace ONI_ARK
 {
     public class Patches
     {

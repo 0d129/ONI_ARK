@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("缺氧_蛇屠箱")]
+[assembly: AssemblyTitle("ONI_ARK")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("缺氧_蛇屠箱")]
+[assembly: AssemblyProduct("ONI_ARK")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
