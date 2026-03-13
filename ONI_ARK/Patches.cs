@@ -12,15 +12,41 @@ namespace ONI_ARK
         [HarmonyPatch("Initialize")]
         public class Db_Initialize_Patch
         {
+        
+
             public static void Prefix()
             {
                 Debug.Log("Cuora execute before Db.Initialize!");
             }
 
+
+            public static void LoadSymbol(KAnimFile customKanim, string name, AccessorySlot slot)
+            {
+                HashCache.Get().Add(name);
+                KAnim.Build.Symbol myCustomSymbol = customKanim.GetData().build.GetSymbol(name);
+                if (myCustomSymbol == null)
+                {
+                    Debug.LogWarning($"在 kanim 中没有找到名为 {name} 的 Symbol！请检查你打包的贴图和 scml 文件名。");
+                    return;
+                }
+                Accessory myCustomShape = new Accessory(
+                    id: name,
+                    parent: Db.Get().Accessories,
+                    slot: slot,
+                    batchSource: customKanim.batchTag,
+                    symbol: myCustomSymbol,
+                    animFile: customKanim
+                );
+                slot.accessories.Add(myCustomShape);
+                Db.Get().Accessories.Add(myCustomShape);
+            }
+
+
             public static void Postfix()
             {
+                
                 Debug.Log("Cuora execute after Db.Initialize!");
-                KAnimFile customKanim = Assets.GetAnim("alpha_head_swap_kanim");
+                KAnimFile customKanim = Assets.GetAnim("char_150_snakek_kanim");
                 if (customKanim == null)
                 {
                     Debug.LogWarning("未找到自定义 Kanim，皮肤可能加载失败。");
@@ -28,35 +54,17 @@ namespace ONI_ARK
                 }
                 // 【关键防坑一步】强制初始化动画数据，确保我们能取到 Symbol
                 //customKanim.Initialize();
-
-                // 2. 告诉系统认识这个哈希字符串
-                HashCache.Get().Add("headshape_999");
-
-                // 3. 【新改动】提取真正的 Symbol 对象
-                KAnim.Build.Symbol myCustomSymbol = customKanim.GetData().build.GetSymbol("headshape_999");
-                if (myCustomSymbol == null)
-                {
-                    Debug.LogWarning("在 kanim 中没有找到名为 headshape_999 的 Symbol！请检查你打包的贴图和 scml 文件名。");
-                    return;
-                }
-
-                // 4. 使用你查到的最新构造函数实例化 Accessory
-                Accessory myCustomHeadshape = new Accessory(
-                    id: "headshape_999",
-                    parent: Db.Get().Accessories,
-                    slot: Db.Get().AccessorySlots.HeadShape,
-                    batchSource: customKanim.batchTag,  // 对应 HashedString batchSource
-                    symbol: myCustomSymbol,             // 对应 KAnim.Build.Symbol symbol
-                    animFile: customKanim               // 对应 KAnimFile animFile
-                );
-
-                // 5. 把这个新脸型塞进游戏的“脸型可选池”和“全局饰品池”里
-                Db.Get().AccessorySlots.HeadShape.accessories.Add(myCustomHeadshape);
-                Db.Get().Accessories.Add(myCustomHeadshape);
-
-
-
-
+                LoadSymbol(customKanim, "headshape_1150", Db.Get().AccessorySlots.HeadShape);
+                LoadSymbol(customKanim, "mouth_1150", Db.Get().AccessorySlots.Mouth);
+                LoadSymbol(customKanim, "eyes_1150", Db.Get().AccessorySlots.Eyes);
+                LoadSymbol(customKanim, "belt_1150", Db.Get().AccessorySlots.Belt);
+                LoadSymbol(customKanim, "neck_1150", Db.Get().AccessorySlots.Neck);
+                LoadSymbol(customKanim, "hair_1150", Db.Get().AccessorySlots.Hair);
+                LoadSymbol(customKanim, "cuff_1150", Db.Get().AccessorySlots.Cuff);
+                LoadSymbol(customKanim, "foot_1150", Db.Get().AccessorySlots.Foot);
+                LoadSymbol(customKanim, "hand_1150", Db.Get().AccessorySlots.Hand);
+                LoadSymbol(customKanim, "pelvis_1150", Db.Get().AccessorySlots.Pelvis);
+                LoadSymbol(customKanim, "leg_1150", Db.Get().AccessorySlots.Leg);
 
 
                 // 1. 找一个“替身”。我们从数据库里抓取"Meep"（米普）作为外观模板
@@ -70,12 +78,12 @@ namespace ONI_ARK
                     all_persona[i].startingMinion = false;
                 }
 
-                 if (template == null)
+                if (template == null)
                 {
                     Debug.Log("Cannot find Meep as a persona!");
                     return; // 安全检查
                 }
-                 
+
                 // 2. 使用你查到的构造函数实例化自定义小人
                 Personality myCustomDupe1 = new Personality(
                     name_string_key: "MY_UNIQUE_DUPE_001", // 内部唯一ID，建议全大写且不包含空格
@@ -88,18 +96,18 @@ namespace ONI_ARK
                     CongenitalTrait: template.congenitaltrait, // 先天天赋
 
                     // 以下外观部位全部借用模板的整数ID (ID对应了材质图集中的部件)
-                    headShape: 999,
-                    mouth: template.mouth, // 注意：字段名可能是 mouthShape，这里对应你构造函数的 mouth 参数
-                    neck: template.neck,
-                    eyes: template.eyes,
+                    headShape: 1150,
+                    mouth: template.mouth,
+                    neck: 1150,
+                    eyes: 1150,
                     hair: template.hair,
                     body: template.body,
-                    belt: template.belt,
-                    cuff: template.cuff,
-                    foot: template.foot,
+                    belt: 1150,
+                    cuff: 1150,
+                    foot: 1150,
                     hand: template.hand,
-                    pelvis: template.pelvis,
-                    leg: template.leg,
+                    pelvis: 1150,
+                    leg: 1150,  
                     arm_skin: template.arm_skin,
                     leg_skin: template.leg_skin,
 
