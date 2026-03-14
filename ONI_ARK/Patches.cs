@@ -2,6 +2,9 @@
 using HarmonyLib;
 using Klei.AI;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace ONI_ARK
 {
@@ -14,6 +17,8 @@ namespace ONI_ARK
             public static void Prefix()
             {
                 Debug.Log("Cuora execute before Db.Initialize!");
+                
+                
             }
 
 
@@ -83,8 +88,42 @@ namespace ONI_ARK
                     return; // 安全检查
                 }
 
-                Debug.Log($"当前模板的speech Mouth: {template.speech_mouth}");
-                Debug.Log($"当前模板的 Mouth: {template.mouth}");
+                Debug.Log($"当前模板的 headShape: {template.headShape}");
+                Debug.Log($"当前模板的 mouth: {template.mouth}");
+                Debug.Log($"当前模板的 neck: {template.neck}");
+                Debug.Log($"当前模板的 eyes: {template.eyes}");
+                Debug.Log($"当前模板的 hair: {template.hair}");
+                Debug.Log($"当前模板的 body: {template.body}");
+                Debug.Log($"当前模板的 belt: {template.belt}");
+                Debug.Log($"当前模板的 cuff: {template.cuff}");
+                Debug.Log($"当前模板的 foot: {template.foot}");
+                Debug.Log($"当前模板的 hand: {template.hand}");
+                Debug.Log($"当前模板的 pelvis: {template.pelvis}");
+                Debug.Log($"当前模板的 leg: {template.leg}");
+                Debug.Log($"当前模板的 arm_skin: {template.arm_skin}");
+                Debug.Log($"当前模板的 leg_skin: {template.leg_skin}");
+                Debug.Log($"当前模板的 speech_mouth: {template.speech_mouth}");
+
+                // 0xDE96C08C 是十六进制，C# 中可以直接赋值给 int
+                int targetHash = unchecked((int)0xDE96C08C);
+
+                // 调用 HashCache 获取原始字符串
+                string result = HashCache.Get().Get(targetHash);
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    Debug.Log($"找到符号名: {result}");
+                }
+                else
+                {
+                    Debug.Log("HashCache 中没有这个哈希值的记录。");
+                }
+                
+                // 使用反射读取 HashCache 的私有成员
+                var field = typeof(HashCache).GetField("hashes", BindingFlags.NonPublic | BindingFlags.Instance);
+                var dict = (Dictionary<int, string>)field.GetValue(HashCache.Get());
+                File.WriteAllLines("hashes.txt", dict.Select(kv => $"{kv.Key:X8} : {kv.Value}"));
+
                 // 2. 使用你查到的构造函数实例化自定义小人
                 Personality myCustomDupe1 = new Personality(
                     name_string_key: "MY_UNIQUE_DUPE_001", // 内部唯一ID，建议全大写且不包含空格
@@ -98,7 +137,7 @@ namespace ONI_ARK
 
                     // 以下外观部位全部借用模板的整数ID (ID对应了材质图集中的部件)
                     headShape: 1150,
-                    mouth: template.mouth,
+                    mouth: 1150,
                     neck: 1150,
                     eyes: 1150,
                     hair: 1150,
