@@ -1,0 +1,14 @@
+﻿下一次要做的：
+明日方舟为了实现头发摆动的效果，将头发拆分成了多片。
+我希望有个工具能读取skel文件，将hair部分拼接成一个完整的png，因为缺氧里不支持发片拼接。
+
+这个工具还没有定：
+https://github.com/EsotericSoftware/spine-runtimes
+在之前运行 Viewer 时遇到了 EOFException，这意味着 spine-runtimes 的版本必须与  .skel 文件版本完全匹配。
+如果文件是 3.8 导出的，必须去 GitHub 的 Releases 页面下载 3.8 分支 的代码。
+主分支（目前是 4.2+）的代码是无法读取旧版二进制 .skel 的。
+或者其他开源的工具，总之一定要能脚本化，自动化。
+
+然后就是在Spriter 里调整png的pivot并记录。
+缺氧的人物骨架是在kanim里隐性定义的，每一帧记录了每个snapto_xxx组件的位置。各个snapto_xxx组件的相对位置组成了骨架。
+我们能做的就是修改图片在哪个点吸附到这个snapto_xxx上。

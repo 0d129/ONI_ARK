@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="init.bat" />
+    <Content Include="Note\2026-03-16" />
     <Content Include="Resources\ark_parts_statistics.csv" />
     <Content Include="Resources\hashes.txt" />
     <Content Include="Scripts\fix_scml.py" />
