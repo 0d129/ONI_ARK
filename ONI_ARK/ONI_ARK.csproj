@@ -1,104 +1,67 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{66EE373B-680C-40E3-8A00-1C854959F374}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ONI_ARK</RootNamespace>
-    <AssemblyName>ONI_ARK</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\lib\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\lib\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\lib\UnityEngine.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Patches.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\Atlas切图.py" />
-    <Compile Include="SymbolOverride_Patch.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="mod.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="mod_info.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="init.bat" />
-    <Content Include="Note\2026-03-16" />
-    <Content Include="Resources\ark_parts_statistics.csv" />
-    <Content Include="Resources\hashes.txt" />
-    <Content Include="Scripts\fix_scml.py" />
-    <Content Include="Scripts\mark_pivot.py" />
-    <Content Include="Scripts\reorder_id.py" />
-    <Content Include="Scripts\replace_snapto.py" />
-    <Content Include="Scripts\requirements.txt" />
-    <Content Include="Scripts\test_et_write.py" />
-    <Content Include="Scripts\test_scml.py" />
-    <Content Include="Scripts\test_scml_2.py" />
-    <Content Include="Scripts\test_scml_3.py" />
-    <Content Include="Scripts\update_pngs.py" />
-    <Content Include="Scripts\完美适配缺氧人物组件的干员.py" />
-    <Content Include="Scripts\统计部件覆盖率.py" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetPath)" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I
-xcopy "$(ProjectDir)mod.yaml" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I
-xcopy "$(ProjectDir)mod_info.yaml" "%25USERPROFILE%25\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK\" /Y /I</PostBuildEvent>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>..\lib\0Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="Assembly-CSharp-firstpass">
+            <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+            <HintPath>..\lib\Unity.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>..\lib\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+            <HintPath>..\lib\UnityEngine.ImageConversionModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+            <HintPath>..\lib\UnityEngine.UI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="mod.yaml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="mod_info.yaml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+<!--    <ItemGroup>-->
+<!--      <Folder Include="Properties\" />-->
+<!--    </ItemGroup>-->
+<!--    -->
+    <Target Name="DeployMod" AfterTargets="Build">
+        <PropertyGroup>
+            <ModDeployDir>$(USERPROFILE)\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK</ModDeployDir>
+        </PropertyGroup>
+
+        <Message Text="=> 正在将模组部署到: $(ModDeployDir)" Importance="High" />
+
+        <MakeDir Directories="$(ModDeployDir)" Condition="!Exists('$(ModDeployDir)')" />
+
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModDeployDir)" />
+
+        <Copy SourceFiles="$(ProjectDir)mod.yaml" DestinationFolder="$(ModDeployDir)" />
+        <Copy SourceFiles="$(ProjectDir)mod_info.yaml" DestinationFolder="$(ModDeployDir)" />
+
+    </Target>
 </Project>
