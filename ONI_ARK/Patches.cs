@@ -48,15 +48,14 @@ namespace ONI_ARK
             public static void Postfix()
             {
                 Debug.Log("Cuora execute after Db.Initialize!");
-                KAnimFile customKanim = Assets.GetAnim("char_150_snakek_kanim");
+                string kanimName = "char_150_snakek_kanim";
+                KAnimFile customKanim = Assets.GetAnim(kanimName); 
                 if (customKanim == null)
                 {
                     Debug.LogWarning("未找到自定义 Kanim，皮肤可能加载失败。");
                     return;
                 }
-
-                // 【关键防坑一步】强制初始化动画数据，确保我们能取到 Symbol
-                //customKanim.Initialize();
+ 
                 LoadSymbol(customKanim, "headshape_1150", Db.Get().AccessorySlots.HeadShape);
                 LoadSymbol(customKanim, "mouth_1150", Db.Get().AccessorySlots.Mouth);
                 LoadSymbol(customKanim, "eyes_1150", Db.Get().AccessorySlots.Eyes);
@@ -66,10 +65,16 @@ namespace ONI_ARK
                 LoadSymbol(customKanim, "hat_hair_1150", Db.Get().AccessorySlots.HatHair);
                 LoadSymbol(customKanim, "cuff_1150", Db.Get().AccessorySlots.Cuff);
                 LoadSymbol(customKanim, "foot_1150", Db.Get().AccessorySlots.Foot);
-                LoadSymbol(customKanim, "hand_1150", Db.Get().AccessorySlots.Hand);
+                LoadSymbol(customKanim, "hand_paint_1150", Db.Get().AccessorySlots.Hand);
                 LoadSymbol(customKanim, "pelvis_1150", Db.Get().AccessorySlots.Pelvis);
                 LoadSymbol(customKanim, "leg_1150", Db.Get().AccessorySlots.Leg);
-
+                LoadSymbol(customKanim, "leg_skin_1150", Db.Get().AccessorySlots.LegSkin);
+                
+                LoadSymbol(customKanim, "torso_1150", Db.Get().AccessorySlots.Body);
+                LoadSymbol(customKanim, "arm_sleeve_1150", Db.Get().AccessorySlots.Arm);
+                LoadSymbol(customKanim, "arm_lower_1150", Db.Get().AccessorySlots.ArmLower);
+                LoadSymbol(customKanim, "arm_upper_1150", Db.Get().AccessorySlots.ArmUpperSkin);
+                LoadSymbol(customKanim, "arm_lower_sleeve_1150", Db.Get().AccessorySlots.ArmLowerSkin);
 
                 // 1. 找一个“替身”。我们从数据库里抓取"Meep"（米普）作为外观模板
                 Personality template = Db.Get().Personalities.GetPersonalityFromNameStringKey("Meep");
@@ -103,7 +108,7 @@ namespace ONI_ARK
                 Debug.Log($"当前模板的 arm_skin: {template.arm_skin}");
                 Debug.Log($"当前模板的 leg_skin: {template.leg_skin}");
                 Debug.Log($"当前模板的 speech_mouth: {template.speech_mouth}");
-
+                
                 // 0xDE96C08C 是十六进制，C# 中可以直接赋值给 int
                 int targetHash = unchecked((int)0xDE96C08C);
 
@@ -124,6 +129,28 @@ namespace ONI_ARK
                 var dict = (Dictionary<int, string>)field.GetValue(HashCache.Get());
                 File.WriteAllLines("hashes.txt", dict.Select(kv => $"{kv.Key:X8} : {kv.Value}"));
 
+                // 利用反射获取 CharacterContainer 类的私有静态字典 defaultShirtIdxToDefaultOutfitID
+                FieldInfo fieldOutfit = typeof(CharacterContainer).GetField(
+                    "defaultShirtIdxToDefaultOutfitID", 
+                    BindingFlags.NonPublic | BindingFlags.Static
+                );
+                if (fieldOutfit != null)
+                {
+                    // 获取到那个静态 Dictionary 的实例 (因为是 static，所以传 null)
+                    var dictOutfit = (Dictionary<int, string>)fieldOutfit.GetValue(null);
+    
+                    // 如果没有 1150，就把你的 1150 和对应的默认衣服字符串塞进去避开检查崩盘
+                    if (!dictOutfit.ContainsKey(1150))
+                    {
+                        dictOutfit[1150] = "1150"; 
+                        Debug.Log("成功利用反射将 1150 写入 defaultShirtIdxToDefaultOutfitID 字典。");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("反射获取 defaultShirtIdxToDefaultOutfitID 失败！");
+                }
+                
                 // 2. 使用你查到的构造函数实例化自定义小人
                 Personality myCustomDupe1 = new Personality(
                     name_string_key: "MY_UNIQUE_DUPE_001", // 内部唯一ID，建议全大写且不包含空格
@@ -141,11 +168,11 @@ namespace ONI_ARK
                     neck: 1150,
                     eyes: 1150,
                     hair: 1150,
-                    body: template.body,
+                    body: 1150,
                     belt: 1150,
                     cuff: 1150,
                     foot: 1150,
-                    hand: template.hand,
+                    hand: 1150,
                     pelvis: 1150,
                     leg: 1150,
                     arm_skin: template.arm_skin,
