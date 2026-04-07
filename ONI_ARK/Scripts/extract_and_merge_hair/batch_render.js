@@ -78,7 +78,16 @@ const server = http.createServer((req, res) => {
         </head>
         <body>
             <script>
-                const app = new PIXI.Application({ width: 1024, height: 1024, transparent: true });
+                const SCALE = 0.65; // 定义缩放倍率
+                const ORIG_SIZE = 1024;
+                const TARGET_SIZE = ORIG_SIZE * SCALE; // 512
+
+                // 1. 修改画布尺寸为 512x512
+                const app = new PIXI.Application({ 
+                    width: TARGET_SIZE, 
+                    height: TARGET_SIZE, 
+                    transparent: true 
+                });
                 document.body.appendChild(app.view);
                 let currentSpine = null;
 
@@ -88,7 +97,14 @@ const server = http.createServer((req, res) => {
                         const loader = new PIXI.Loader();
                         loader.add('model', url).load((_, res) => {
                             currentSpine = new PIXI.spine.Spine(res.model.spineData);
-                            currentSpine.x = 512; currentSpine.y = 800; // 默认位置
+                            
+                            // 2. 按比例缩放角色模型
+                            currentSpine.scale.set(SCALE);
+
+                            // 3. 调整位置 (原先是 512, 800，现在也要乘以 SCALE)
+                            currentSpine.x = 512 * SCALE; 
+                            currentSpine.y = 800 * SCALE; 
+
                             currentSpine.autoUpdate = false;
                             try {
                                 const anim = currentSpine.spineData.animations.find(a => a.name === 'Idle') || currentSpine.spineData.animations[0];
