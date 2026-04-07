@@ -44,11 +44,6 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-
-<!--    <ItemGroup>-->
-<!--      <Folder Include="Properties\" />-->
-<!--    </ItemGroup>-->
-<!--    -->
     <Target Name="DeployMod" AfterTargets="Build">
         <PropertyGroup>
             <ModDeployDir>$(USERPROFILE)\Documents\Klei\OxygenNotIncluded\mods\Dev\ONI_ARK</ModDeployDir>
