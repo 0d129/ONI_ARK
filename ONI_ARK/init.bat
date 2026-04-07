@@ -5,3 +5,4 @@
 
 AssetRipper -> ONI_Assets
 Ark-Unpacker -> ARK_Assets
+Scripts/scml-preview 解压

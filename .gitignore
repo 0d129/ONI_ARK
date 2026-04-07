@@ -361,3 +361,37 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+
+# godot files
+# Godot 4.x Specific
+# ------------------
+.godot/                # Contains imported assets, cache, and internal metadata
+
+# Godot 3.x Specific (Keep if you use older versions)
+# ------------------
+.import/               # Re-imported assets cache
+export_preset.cfg      # Contains export configurations (can contain sensitive keys)
+
+# General Editor & Temp Files
+# ---------------------------
+*.tmp                  # Temporary files
+*.log                  # Log files
+*.gdignore             # Files Godot should ignore internally
+data_*/                # Android/Web export data folders
+
+# Mono/C# Specific
+# ----------------
+.mono/                 # Mono-specific build artifacts
+bin/                   # Compiled C# binaries
+obj/                   # Intermediate C# build files
+*.csproj               # MSBuild project files (Optional: keep if you want shared settings)
+*.sln                  # Visual Studio solution files (Optional)
+
+# OS/Tool Generated
+# -----------------
+.DS_Store              # macOS metadata
+Thumbs.db              # Windows thumbnail cache
+.vscode/               # VS Code local settings
+.idea/                 # JetBrains local settings
